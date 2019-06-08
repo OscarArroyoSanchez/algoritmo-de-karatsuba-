@@ -20,8 +20,16 @@ class Numero(NumSpecs):
 		print(f"{self.valor}, {self.size}, {self.base}")
 	
 	def __lt__(self, other):
-		return self.valor < other.valor
-		
+		SV=convertInt(self.valor[-(self.can):])
+		OV=convertInt(other.valor[-(other.can):])
+		return SV < OV
+	
+	def __rt__(self, other):
+		SV=convertInt(self.valor[-(self.can):])
+		OV=convertInt(other.valor[-(other.can):])
+		return SV > OV
+
+	
 	def __eq__(self, other):
 		return self.valor == other.valor
 	
@@ -29,7 +37,7 @@ class Numero(NumSpecs):
 		return f"{self.valor}"
 		
 	def __add__(self, other):
-		print("haciendo suma")
+		#print("haciendo suma")
 		aux = 0
 		try:
 			for i in range ( max(self.can, other.can) ):	#Se elige el que tenga mayor cantidad, para completar la suma.
@@ -83,11 +91,19 @@ class Numero(NumSpecs):
 	def prt(self, error):
 		print(error)
 		
+	def setVector(self, vec):
+		self.valor = [0]*self.size
+		self.can=0
+		for i in range(len(vec)):
+			self.valor[-(i+1)]=vec[-(i+1)]
+			self.can +=1
+			
 	def __mul__(self, other):
 		aux = 0
-		aux2 = 0
+		aux2 = []
 		carry = 0
-		auxList = []
+		auxList = []	#Lista donde se guardan los valores para ser sumados... contiene objetos Numero
+		vec = []
 		for i in range(other.can):
 			for j in range(self.can):
 				aux = other.valor[-(i+1)] * self.valor[-(j+1)]
@@ -98,7 +114,7 @@ class Numero(NumSpecs):
 				carry = 0
 				
 				if(aux > 9 and j < (self.can-1)):		#Si hay que hacer acarreo?
-					aux2 += (aux%10)*(10**j)
+					aux2.insert(0, (aux%10))
 					#print(aux2, "Ardilla1", j)
 					carry = (aux//10)	#se toma el numero a acarrear y se multiplica por la base del numero 
 													#que se multiplico... primero = 10, segundo = 100... etc
@@ -112,23 +128,24 @@ class Numero(NumSpecs):
 					carry = 0
 					break;
 				if(aux < 10):
-					aux2 += (aux)*(10**j)
+					aux2.insert(0, (aux)*(10**j))
 					#print(aux2, "Ardilla3")
 
 			#print(aux2, "last")
 			aux2 = aux2*(10**i)
 			#print(aux2, "last")
-
-			auxList.append(Numero(aux2))
+			n = Numero(0)
+			n.setVector(aux2)
+			auxList.append(n)
 			aux2 = 0
 			#print(auxList)
-		
+			
 		if(len(auxList) > 1):
 			for i in range(len(auxList)-1): 
-				auxList[0].valor = auxList[0] + auxList[i+1]
-			return auxList[0].valor
+				auxList[0] = auxList[0] + auxList[i+1]
+			return auxList[0]
 		else:
-			return auxList[0].valor
+			return auxList[0]
 	
 	def convertInt(self, a):
 		n = len(a)
@@ -198,8 +215,8 @@ class Numero(NumSpecs):
 				if auxND < auxOV:
 					if (len(resultado)==0 or len(dividendo)==1):
 						pass
-					#if auxND == 0:
-					#	resultado.append(0)
+					if auxND == 0:
+						resultado.append(0)
 					else:
 						resultado.append(0)
 				if auxND == auxOV:
@@ -211,10 +228,9 @@ class Numero(NumSpecs):
 			return Numero(self.convertInt(resultado))
 		except Exception as error:		# Se controla la excepcion.
 			return self.prt(error)
-						
-					
+											
 	def __lshift__(self, x):
-		print("a")
+		#print("a")
 		a = 10**x
 		return self * Numero(a)
 		#elevado=10**other
@@ -223,13 +239,13 @@ class Numero(NumSpecs):
 	def __rshift__(self, x):
 		try:
 			if x>self.can:
-				raise Excepcion ("EL numero va a quedar en decimal")
+				raise Exception ("EL numero va a quedar en decimal")
 			if x==self.can:
 				return Numero(0)
 			else:
-				for i in range (x,0):
-					self.valor[self.size-self.can-1]=0
-					self.can-=0
+				for i in range (x):
+					self.valor[-self.can]=0
+					self.can-=1
 				return self
 					
 		except Exception as error:		# Se controla la excepcion.
