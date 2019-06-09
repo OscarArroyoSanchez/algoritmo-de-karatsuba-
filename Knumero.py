@@ -13,7 +13,12 @@ class Knumero(Numero):
 		for i in range(len(vec)):
 			self.valor[-(i+1)]=vec[-(i+1)]
 			self.can +=1
-	
+			
+	def __repr__(self):
+		aux = 0
+		for i in range(self.can):
+			aux+=self.valor[-(i+1)]*self.base**i
+		return f"Knumero({aux})"
 
 		
 	def __mul__(self, other):

@@ -6,7 +6,7 @@ from NumSpecs import *
 @total_ordering
 class Numero(NumSpecs):
 	def __init__(self, num = 0, tam = 16, base = 10):
-		self.size = tam
+		super().__init__(tam)
 		self.valor = [0] * tam
 		self.base = base
 		self.can = 0
@@ -34,7 +34,10 @@ class Numero(NumSpecs):
 		return self.valor == other.valor
 	
 	def __repr__(self):
-		return f"{self.valor}"
+		aux = 0
+		for i in range(self.can):
+			aux+=self.valor[-(i+1)]*self.base**i
+		return f"Numero({aux})"
 		
 	def __add__(self, other):
 		#print("haciendo suma")
@@ -99,48 +102,34 @@ class Numero(NumSpecs):
 			self.can +=1
 			
 	def __mul__(self, other):
-		aux = 0
-		aux2 = []
 		carry = 0
 		auxList = []	#Lista donde se guardan los valores para ser sumados... contiene objetos Numero
-		vec = []
+		
 		for i in range(other.can):
+			aux2 = Numero()
+			aux2.can += i
 			for j in range(self.can):
-				aux = other.valor[-(i+1)] * self.valor[-(j+1)]
-				#print(aux, "AUX")
-				aux += carry
-				#print(carry, "CCC")
-				#print(aux, "AUX-C")
-				carry = 0
+				aux2.valor[-(j+1+i)] = other.valor[-(i+1)] * self.valor[-(j+1)]	#Aqui se multiplica digito a digito
+				aux2.can += 1	#se aumenta la cantidad del numero
+				aux2.valor[-(j+1+i)] += carry	#Se suma el acarreo, si hay.
 				
-				if(aux > 9 and j < (self.can-1)):		#Si hay que hacer acarreo?
-					aux2.insert(0, (aux%10))
-					#print(aux2, "Ardilla1", j)
-					carry = (aux//10)	#se toma el numero a acarrear y se multiplica por la base del numero 
-													#que se multiplico... primero = 10, segundo = 100... etc
-													
-				if(aux>9 and j == (self.can-1)):		#Si el resultado de la multiplicacion es de 2 digitos pero es la ultima
-					#print(aux, "aaaa")
-					aux2 += aux*(10**j)
-					carry = (aux//10)*(10**(j+1))
-					#print(aux2, "Ardilla2")
-					aux += carry
-					carry = 0
+				#------------Casos------------
+				if((j+i)==self.size-1):	# Caso donde se podria exceder el "size" del Numero
+					aux2.valor[-(j+1+i)] = (aux2.valor[-(j+1+i)]%10)
 					break;
-				if(aux < 10):
-					aux2.insert(0, (aux)*(10**j))
-					#print(aux2, "Ardilla3")
-
-			#print(aux2, "last")
-			aux2 = aux2*(10**i)
-			#print(aux2, "last")
-			n = Numero(0)
-			n.setVector(aux2)
-			auxList.append(n)
-			aux2 = 0
-			#print(auxList)
+				
+				if(aux2.valor[-(j+1+i)] > 9 and j < self.can-1):		#Si hay que hacer acarreo?
+					carry = (aux2.valor[-(j+1+i)]//10)	#Sacamos el valor digito a acarrear.
+					aux2.valor[-(j+1+i)] = (aux2.valor[-(j+1+i)]%10)	#se guarda el digito que queda del calculo.
+													
+				if(aux2.valor[-(j+1+i)] > 9 and j == (self.can-1)):		#Si el resultado de la multiplicacion es de 2 digitos pero es la ultima
+					aux2.valor[-(j+1+i)] = (aux2.valor[-(j+1+i)])
+					break;
+				#------------------------------
+			auxList.append(aux2)
+			carry = 0	# Reseteamos el carry
 			
-		if(len(auxList) > 1):
+		if(len(auxList) > 1):	#Aqui se suman los Numero, de la lista y se retorna.
 			for i in range(len(auxList)-1): 
 				auxList[0] = auxList[0] + auxList[i+1]
 			return auxList[0]

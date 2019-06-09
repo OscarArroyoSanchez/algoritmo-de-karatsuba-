@@ -8,5 +8,7 @@ class NumSpecs():
 	def __init__(self, longitud):
 		self.size = longitud
 	@abstractmethod
-	def __add__():
+	def __repr__():
+		pass
+	def __mul__():
 		pass
