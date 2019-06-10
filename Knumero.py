@@ -73,9 +73,9 @@ class Knumero(Numero):
 			
 			z1 = (a+b)*(c+d)-z2-z0
 
-			(z2*b1)+(z1*b2)+z0
 			
-			return  
+			
+			return (z2*b1)+(z1*b2)+z0
 		"""
 		def magic(v1, v2, c1, c2):
 			if(c1 < 3 and c2 < 3):

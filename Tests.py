@@ -61,22 +61,21 @@ def testNumero():
 		print("Multiplicando: ", a, "*", b)
 		print("R/", a*b, " - " "Resultado PYTHON: ", numero*numero2, "\n")
 		
-def timeNvK():
-	with open("TestK.csv", "w") as file:
-	file.write(f"N: ;AlgoritmoEscuela: ;AlgoritmoKaratsuba: \n")
-	for i in range (5, 25):
-		numero = random.randint(1, (10**i)+1)
-		a = Knumero(numero)
-		numero2 = random.randint(1, (10**i)+1)
-		b = Knumero(numero2)
-		
-		TimeSchool = timeit.timeit("a*b", globals=globals(), number = 100)*1000
-		TimeKaratsuba = timeit.timeit("a*b", globals=globals(), number = 100)*1000
-		file.write(f"{a},{b};{TimeSchool};{TimeKaratsuba} \n")
+
+
 		
 if __name__ == "__main__":
-
-	testNumero()
-	timeNvK()
 	
+	testNumero()
+	with open("TestK.csv", "w") as file:
+		file.write(f"N: ;AlgoritmoEscuela: ;AlgoritmoKaratsuba: \n")
+		for i in range (5, 25):
+			numero = random.randint(1, (10**i)+1)
+			a = Knumero(numero)
+			numero2 = random.randint(1, (10**i)+1)
+			b = Knumero(numero2)
+			
+			TimeSchool = timeit.timeit("a*b", globals=globals(), number = 100)*1000
+			TimeKaratsuba = timeit.timeit("a*b", globals=globals(), number = 100)*1000
+			file.write(f"{a},{b};{TimeSchool};{TimeKaratsuba} \n")
 	
