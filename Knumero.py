@@ -28,9 +28,6 @@ class Knumero(Numero):
 				if(num.valor[-(i+1)]!=0):
 					return False
 			return True
-		if(self.can//2>=other.can or other.can//2>=self.can):
-			number = self.convertInt(self.valor)*self.convertInt(other.valor)
-			return Knumero(number)
 		if(self.can == 1 or other.can == 1):	#Primer Caso base
 
 			number = self.convertInt(self.valor)*self.convertInt(other.valor)
