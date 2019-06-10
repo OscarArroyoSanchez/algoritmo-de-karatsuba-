@@ -23,8 +23,8 @@ class Knumero(Numero):
 		
 	def __mul__(self, other):
 	
-		def multiply(first, second): # Multiplican para evitar problemas de recursion
-			return super().__mul__(other)
+		def multiply(first, second): # Multiplican para evirtar problemas de recursion
+			return super().__mul__(second)
 			
 		def verifyZeros(num):	# Metodo que retorna True si en el vector solo tiene 0s
 			for i in range(num.can):
@@ -33,16 +33,18 @@ class Knumero(Numero):
 			return True
 			
 		if(self.can == 1 or other.can == 1):	#Primer Caso base
-			print("aaaa caso raro")
-			print (super().__mul__(other))
-			return super().__mul__(other) #Llama a la mul de Numero... Parece servir.
+			#print("aaaa caso raro")
+			#print(self, other)
+			#number = self.convertInt(self.valor)*self.convertInt(other.valor)
+			#return Knumero(number)
+			return super().__mul__(other)
 		else:
 			div = max(self.can, other.can)
 			div2 = div//2
-			print(div,"div")
+			#print(div,"div")
 			Lself = self.valor[-self.can:]
 			Lother = other.valor[-other.can:]
-			print(Lself, Lother, "Nuevo K")
+			#print(Lself, Lother, "Nuevo K")
 			a = Knumero(0)
 			a.setVector(Lself[:self.can//2])
 			b = Knumero(0)
@@ -55,6 +57,8 @@ class Knumero(Numero):
 			
 			#-----------Verificacion si al dividir los knum uno sale con solo 0s
 			if(verifyZeros(a)) or verifyZeros(b) or verifyZeros(c) or verifyZeros(d):
+				#number = self.convertInt(self.valor)*self.convertInt(other.valor)
+				#return Knumero(number)
 				return super().__mul__(other)
 			
 			#----------
@@ -62,18 +66,22 @@ class Knumero(Numero):
 			#print(div)
 			b1 = Knumero(10**div)
 			b2 = Knumero(10**(div//2))
-			print("b1 ", b1)
-			print("b2 ", b2)
-			print(a, b, c, d ,"abcd")
+			#print("b1 ", b1)
+			#print("b2 ", b2)
+			#print(a, b, c, d ,"abcd")
 			z2 = a*c
-			print(z2,"z2")
+			
+			#print(z2,"z2")
 			#print(b, d,"b*d")
 			z0 = b*d
-			print(z0,"z0")
-			z1 = (a+b)*(c+d)-z2-z0
-			print(z1, "z1")
+			#print(z0,"z0")
+			
+			z1 = ((a+b)*(c+d)-z2)-z0
+			
+			#print(z1, "z1")
+			#print("-------------------", z2, z1, z0)
 			res = (z2*b1)+(z1*b2)+z0
-			print(res, "ardillita")
+			#print(res, "ardillita")
 			return  res
 		"""
 		def magic(v1, v2, c1, c2):

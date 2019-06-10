@@ -10,11 +10,12 @@ class Numero(NumSpecs):
 		self.valor = [0] * tam
 		self.base = base
 		self.can = 0
-		for i in range (tam):			#Guarda num en el vector valor.
-			self.valor[-(i+1)] = num%10
-			num = num//10
-			self.can+=1
-			if(num == 0): break
+		if(num > 0):
+			for i in range (tam):			#Guarda num en el vector valor.
+				self.valor[-(i+1)] = num%10
+				num = num//10
+				self.can+=1
+				if(num == 0): break
 			
 	def toString(self):
 		print(f"{self.valor}, {self.size}, {self.base}")
@@ -30,7 +31,9 @@ class Numero(NumSpecs):
 			if (self.valor[i] > other.valor[i]):
 				return True
 		return False
-
+	
+	def __ge__(self, other):
+		pass
 	
 	def __eq__(self, other):
 		if(self.size == other.size and self.base == other.base):
@@ -48,41 +51,47 @@ class Numero(NumSpecs):
 		return f"Numero({aux})"
 		
 	def __add__(self, other):
-		#print("haciendo suma")
-		aux = 0
+		#print("SUMANDO---", self.valor, other.valor)
+		auxNum = Numero()
+		carry = 0
+		cont = max(self.can, other.can)
 		try:
-			for i in range ( max(self.can, other.can) ):	#Se elige el que tenga mayor cantidad, para completar la suma.
-				aux = self.valor[-(i+1)] + other.valor[-(i+1)]
+			for i in range (cont):	#Se elige el que tenga mayor cantidad, para completar la suma.
 
-				if(aux > 9):	#Hay que hacer acarreo?
+				auxNum.valor[-(i+1)] = self.valor[-(i+1)] + other.valor[-(i+1)]
+				auxNum.can += 1
+				auxNum.valor[-(i+1)] += carry
+
+				carry = 0
+				
+				if(auxNum.valor[-(i+1)] > 9 and i < cont-1):	#Hay que hacer acarreo?
+					carry = auxNum.valor[-(i+1)]//10
+					auxNum.valor[-(i+1)] = auxNum.valor[-(i+1)]%10 
+
+
+				if(auxNum.valor[-(i+1)] > 9 and i == cont-1):
 					#---------Exception------------  Excepcion cuando la suma de los valores excede el tamaño(size) de los numeros.
 					if(i == self.size-1):
-						self.valor[-(i+1)] = aux%10
+						auxNum.valor[-(i+1)] = auxNum.valor[-(i+1)]%10
 						raise OverflowError("Overflow: Se sobrepaso el limite del numero, el numero se reinicio")
 					#------------------------------
-					self.valor[-(i+1)] = aux%10 
-					self.valor[-(i+2)] += aux//10
+					auxNum.valor[-(i+2)] += auxNum.valor[-(i+1)]//10
+					auxNum.valor[-(i+1)] = auxNum.valor[-(i+1)]%10 
 
-				else:		# si no hay que hacer acarreo despues de la suma.
-					self.valor[-(i+1)] = aux
+					auxNum.can += 1
 					
-			for i in range(self.size):
-				if(self.valor[i]!=0):
-					self.can = self.size-i
-					break
-			return self
+					
+			#print(auxNum.can)		
+			return auxNum
 				
-				#se suma y se actualiza sobre "self.valor" y se retorna.
 				
 		except Exception as error:		# Se controla la excepcion.
 			self.prt(error)
-			for i in range(self.size):
-				if(self.valor[i]!=0):
-					self.can = self.size-i
-					break
-			return self
+
+			return auxNum
 					
 	def __sub__(self, other):
+		#print("RESTANDO: ", self, other)
 		if self < other:
 			return ~(other + ~self)
 		else:
@@ -95,8 +104,10 @@ class Numero(NumSpecs):
 			aux[-(i+1)] -= self.valor[-(i+1)]
 		n = Numero()
 		n.valor = aux
-		n += Numero(1,n.can)
+
 		n.can = self.size
+		n += Numero(1)
+
 		return n
 				
 	def prt(self, error):
@@ -119,23 +130,30 @@ class Numero(NumSpecs):
 			for j in range(self.can):
 				aux2.valor[-(j+1+i)] = other.valor[-(i+1)] * self.valor[-(j+1)]	#Aqui se multiplica digito a digito
 				aux2.can += 1	#se aumenta la cantidad del numero
+				#print(aux2, "aux2", j)
 				aux2.valor[-(j+1+i)] += carry	#Se suma el acarreo, si hay.
-				
+				carry = 0	# Reseteamos el carry
+				#print(carry, "carry", j)
+
 				#------------Casos------------
 				if((j+i)==self.size-1):	# Caso donde se podria exceder el "size" del Numero
 					aux2.valor[-(j+1+i)] = (aux2.valor[-(j+1+i)]%10)
+					#print("ardilla")
 					break;
 				
 				if(aux2.valor[-(j+1+i)] > 9 and j < self.can-1):		#Si hay que hacer acarreo?
 					carry = (aux2.valor[-(j+1+i)]//10)	#Sacamos el valor digito a acarrear.
 					aux2.valor[-(j+1+i)] = (aux2.valor[-(j+1+i)]%10)	#se guarda el digito que queda del calculo.
-													
+					#print("ardilla2")
+					
 				if(aux2.valor[-(j+1+i)] > 9 and j == (self.can-1)):		#Si el resultado de la multiplicacion es de 2 digitos pero es la ultima
 					aux2.valor[-(j+1+i)] = (aux2.valor[-(j+1+i)])
+					#print("ardilla3")
 					break;
 				#------------------------------
 			auxList.append(aux2)
-			carry = 0	# Reseteamos el carry
+			#print(auxList)
+
 			
 		if(len(auxList) > 1):	#Aqui se suman los Numero, de la lista y se retorna.
 			for i in range(len(auxList)-1): 
