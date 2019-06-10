@@ -40,22 +40,25 @@ class Knumero(Numero):
 			div = max(self.can, other.can)
 
 			div2 = div//2
-
-			Lself = self.valor[-self.can:]
-			Lother = other.valor[-other.can:]
+			if (self.can >= other.can)):
+				Lself = self.valor[-div:]
+				Lother = other.valor[-div:]
+			else :
+				Lself = other.valor[-div:]
+				Lother = self.valor[-div:]				
 
 			a = Knumero(0)
-			a.setVector(Lself[:self.can//2])
+			a.setVector(Lself[:div2])
 			b = Knumero(0)
-			b.setVector(Lself[self.can//2:])
+			b.setVector(Lself[div2:])
 			c = Knumero(0)
-			c.setVector(Lother[:other.can//2])
+			c.setVector(Lother[:div2])
 			d = Knumero(0)
-			d.setVector(Lother[other.can//2:])
+			d.setVector(Lother[div2:])
 
 			
 			#-----------Verificacion si al dividir los knum uno sale con solo 0s
-			if(verifyZeros(a)) or verifyZeros(b) or verifyZeros(c) or verifyZeros(d):
+			if(verifyZeros(a)) or verifyZeros(b) or verifyZeros(d):
 				return super().__mul__(other)
 			
 			#----------
