@@ -1,0 +1,4 @@
+Numero 1;x;Numero 2;Tiempo Karatsuba;Tiempo Multiplicacion;Resultado Karatsuba;Resultado Multiplicacion
+Numero(1234);x;Numero(5678);20.42686438560486;0.01598954200744629;Numero(3384154988);Numero(7006652)
+Numero(5683);x;Numero(1259);7.719723224639893;0.019989728927612305;Numero(7777780849131161);Numero(7154897)
+Numero(9834);x;Numero(2852);2.1632080078125;0.015993595123291016;Numero(9999999752645134);Numero(28046568)

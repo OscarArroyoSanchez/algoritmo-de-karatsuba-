@@ -23,7 +23,7 @@ class Knumero(Numero):
 		
 	def __mul__(self, other):
 	
-		def multiply(first, second): # Multiplican para evirtar problemas de recursion
+		def multiply(first, second): # Multiplican para evitar problemas de recursion
 			return super().__mul__(other)
 			
 		def verifyZeros(num):	# Metodo que retorna True si en el vector solo tiene 0s
@@ -34,6 +34,7 @@ class Knumero(Numero):
 			
 		if(self.can == 1 or other.can == 1):	#Primer Caso base
 			print("aaaa caso raro")
+			print (super().__mul__(other))
 			return super().__mul__(other) #Llama a la mul de Numero... Parece servir.
 		else:
 			div = max(self.can, other.can)
