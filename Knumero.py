@@ -40,7 +40,7 @@ class Knumero(Numero):
 			div = max(self.can, other.can)
 
 			div2 = div//2
-			if (self.can >= other.can)):
+			if (self.can >= other.can):
 				Lself = self.valor[-div:]
 				Lother = other.valor[-div:]
 			else :
