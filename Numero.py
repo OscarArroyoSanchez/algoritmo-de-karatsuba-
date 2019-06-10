@@ -62,7 +62,7 @@ class Numero(NumSpecs):
 		return f"Numero({aux})"
 		
 	def __add__(self, other):
-		#print("SUMANDO---", self.valor, other.valor)
+
 		auxNum = Numero()
 		carry = 0
 		cont = max(self.can, other.can)
@@ -91,8 +91,7 @@ class Numero(NumSpecs):
 
 					auxNum.can += 1
 					
-					
-			#print(auxNum.can)		
+							
 			return auxNum
 				
 				
@@ -102,7 +101,6 @@ class Numero(NumSpecs):
 			return auxNum
 					
 	def __sub__(self, other):
-		#print("RESTANDO: ", self, other)
 		if self < other:
 			return ~(other + ~self)
 		else:
@@ -141,30 +139,26 @@ class Numero(NumSpecs):
 			for j in range(self.can):
 				aux2.valor[-(j+1+i)] = other.valor[-(i+1)] * self.valor[-(j+1)]	#Aqui se multiplica digito a digito
 				aux2.can += 1	#se aumenta la cantidad del numero
-				#print(aux2, "aux2", j)
+
 				aux2.valor[-(j+1+i)] += carry	#Se suma el acarreo, si hay.
 				carry = 0	# Reseteamos el carry
-				#print(carry, "carry", j)
+
 
 				#------------Casos------------
 				if((j+i)==self.size-1):	# Caso donde se podria exceder el "size" del Numero
 					aux2.valor[-(j+1+i)] = (aux2.valor[-(j+1+i)]%10)
-					#print("ardilla")
 					break;
 				
 				if(aux2.valor[-(j+1+i)] > 9 and j < self.can-1):		#Si hay que hacer acarreo?
 					carry = (aux2.valor[-(j+1+i)]//10)	#Sacamos el valor digito a acarrear.
 					aux2.valor[-(j+1+i)] = (aux2.valor[-(j+1+i)]%10)	#se guarda el digito que queda del calculo.
-					#print("ardilla2")
+
 					
 				if(aux2.valor[-(j+1+i)] > 9 and j == (self.can-1)):		#Si el resultado de la multiplicacion es de 2 digitos pero es la ultima
 					aux2.valor[-(j+1+i)] = (aux2.valor[-(j+1+i)])
-					#print("ardilla3")
 					break;
 				#------------------------------
 			auxList.append(aux2)
-			#print(auxList)
-
 			
 		if(len(auxList) > 1):	#Aqui se suman los Numero, de la lista y se retorna.
 			for i in range(len(auxList)-1): 
@@ -253,12 +247,10 @@ class Numero(NumSpecs):
 			return self.prt(error)
 											
 	def __lshift__(self, x):
-		#print("a")
+
 		a = 10**x
 		return self * Numero(a)
-		#elevado=10**other
-		#numero=Numero(elevado)
-		#return self*numero
+
 	def __rshift__(self, x):
 		try:
 			if x>self.can:

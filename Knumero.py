@@ -22,8 +22,7 @@ class Knumero(Numero):
 
 		
 	def __mul__(self, other):
-		#print("Multiplicando: ", self, other)
-		#print(self.can, other.can)
+
 		def verifyZeros(num):	# Metodo que retorna True si en el vector solo tiene 0s
 			for i in range(num.can):
 				if(num.valor[-(i+1)]!=0):
@@ -33,21 +32,18 @@ class Knumero(Numero):
 			number = self.convertInt(self.valor)*self.convertInt(other.valor)
 			return Knumero(number)
 		if(self.can == 1 or other.can == 1):	#Primer Caso base
-			#print("aaaa caso raro")
-			#print(self, other)
+
 			number = self.convertInt(self.valor)*self.convertInt(other.valor)
 			return Knumero(number)
-			#print(self, other)
-			#return super().__mul__(other)
+
 		else:
 			div = max(self.can, other.can)
-			#if(div%2==0):
-			#	div-=1
+
 			div2 = div//2
-			#print(div,"div")
+
 			Lself = self.valor[-self.can:]
 			Lother = other.valor[-other.can:]
-			#print(Lself, Lother, "Nuevo K")
+
 			a = Knumero(0)
 			a.setVector(Lself[:self.can//2])
 			b = Knumero(0)
@@ -56,39 +52,27 @@ class Knumero(Numero):
 			c.setVector(Lother[:other.can//2])
 			d = Knumero(0)
 			d.setVector(Lother[other.can//2:])
-			#print(a,b,c,d, "'''''''''''''''")
+
 			
 			#-----------Verificacion si al dividir los knum uno sale con solo 0s
 			if(verifyZeros(a)) or verifyZeros(b) or verifyZeros(c) or verifyZeros(d):
-				#number = self.convertInt(self.valor)*self.convertInt(other.valor)
-				#return Knumero(number)
-				#print("00000")
 				return super().__mul__(other)
 			
 			#----------
 			
-			#print(div)
 			b1 = Knumero(self.base**(div))
 			b2 = Knumero(self.base**(div//2))
 			b3 = Knumero(self.base**(div//4))
-			#print("b1 ", b1)
-			#print("b2 ", b2)
-			#print(a, b, c, d ,"abcd")
+
 			z2 = a*c
-			
-			#print(z2,"z2")
-			#print(b, d,"b*d")
+
 			z0 = b*d
-			#print(z0,"z0")
 			
 			z1 = (a+b)*(c+d)-z2-z0
 
-			#print(z1, "z1")
-			#print("-------------------", z2, z1, z0)
-			res = (z2*b1)+(z1*b2)+z0
-			#print(res, "ardillita")
+			(z2*b1)+(z1*b2)+z0
 			
-			return  res
+			return  
 		"""
 		def magic(v1, v2, c1, c2):
 			if(c1 < 3 and c2 < 3):
