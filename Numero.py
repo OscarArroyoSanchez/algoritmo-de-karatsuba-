@@ -86,7 +86,7 @@ class Numero(NumSpecs):
 				
 				
 		except Exception as error:		# Se controla la excepcion.
-			self.prt(error)
+			#self.prt(error)
 
 			return auxNum
 					

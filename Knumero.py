@@ -37,6 +37,7 @@ class Knumero(Numero):
 			#print(self, other)
 			#number = self.convertInt(self.valor)*self.convertInt(other.valor)
 			#return Knumero(number)
+			print(self, other)
 			return super().__mul__(other)
 		else:
 			div = max(self.can, other.can)
@@ -59,6 +60,7 @@ class Knumero(Numero):
 			if(verifyZeros(a)) or verifyZeros(b) or verifyZeros(c) or verifyZeros(d):
 				#number = self.convertInt(self.valor)*self.convertInt(other.valor)
 				#return Knumero(number)
+				print("00000")
 				return super().__mul__(other)
 			
 			#----------
@@ -71,17 +73,17 @@ class Knumero(Numero):
 			#print(a, b, c, d ,"abcd")
 			z2 = a*c
 			
-			#print(z2,"z2")
+			print(z2,"z2")
 			#print(b, d,"b*d")
 			z0 = b*d
-			#print(z0,"z0")
+			print(z0,"z0")
 			
 			z1 = ((a+b)*(c+d)-z2)-z0
 			
-			#print(z1, "z1")
+			print(z1, "z1")
 			#print("-------------------", z2, z1, z0)
 			res = (z2*b1)+(z1*b2)+z0
-			#print(res, "ardillita")
+			print(res, "ardillita")
 			return  res
 		"""
 		def magic(v1, v2, c1, c2):
