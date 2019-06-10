@@ -5,9 +5,9 @@ from Numero import *
 from Knumero import *
 
 if __name__ == "__main__":
-	num = Numero(num=4, tam=16, base=10)
+	num = Numero(num=12, tam=16, base=10)
 	#num.toString()
-	num2 = Numero(num=6, tam=16, base=10)
+	num2 = Numero(num=14, tam=16, base=10)
 	#num3 = Numero (2567, 10, 6)
 	#print(num - num2, "Test1", "\n")
 	
@@ -18,6 +18,6 @@ if __name__ == "__main__":
 	#print(num3 * num4, "Test")
 	#print(num3 * num4, "Resultado")
 	print(num, num2)
-	print(num*num2)
+	print("Resultado: ", num > num2)
 	
 	

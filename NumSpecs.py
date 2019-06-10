@@ -10,5 +10,6 @@ class NumSpecs():
 	@abstractmethod
 	def __repr__():
 		pass
+	@abstractmethod
 	def __mul__():
 		pass

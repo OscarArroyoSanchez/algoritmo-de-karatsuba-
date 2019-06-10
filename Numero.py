@@ -20,18 +20,26 @@ class Numero(NumSpecs):
 		print(f"{self.valor}, {self.size}, {self.base}")
 	
 	def __lt__(self, other):
-		SV=convertInt(self.valor[-(self.can):])
-		OV=convertInt(other.valor[-(other.can):])
-		return SV < OV
-	
-	def __rt__(self, other):
-		SV=convertInt(self.valor[-(self.can):])
-		OV=convertInt(other.valor[-(other.can):])
-		return SV > OV
+		for i in range(self.size):
+			if (self.valor[i] < other.valor[i]):
+				return True
+		return False
+		
+	def __gt__(self, other):
+		for i in range(self.size):
+			if (self.valor[i] > other.valor[i]):
+				return True
+		return False
 
 	
 	def __eq__(self, other):
-		return self.valor == other.valor
+		if(self.size == other.size and self.base == other.base):
+			for i in range(self.size):
+				if(self.valor[i] != other.valor[i]):
+					return False
+			return True
+		else:
+			return False
 	
 	def __repr__(self):
 		aux = 0
@@ -145,35 +153,25 @@ class Numero(NumSpecs):
 	
 	def __truediv__(self, other):
 		try:
-		
-		#variables y listas a crear
+	
 			dividendo = self.valor[-(self.can):]
 			nuevoDividendo=[]
 			residuo = 0
 			resultado=[]
-			#divisor=other.valor
-			#print(other.valor[-(other.can):])
-			#print(self.valor[-(self.can):])
-			auxOV = self.convertInt(other.valor[-(other.can):])
-			auxSV=self.convertInt(self.valor[-(self.can):])
-			#print(auxOV)
-			#print(auxSV)
 		
-			if auxOV == 0:
+			if other == Numero(0):
 				raise Exception ("Error: no se puede dividir entre cero")
-			if auxOV>auxSV or auxSV==0:#Si el divisor es mayor que el dividendo(CB)
-				print("holi")
+			if other>self or self==Numero(0):#Si el divisor es mayor que el dividendo(CB)
 				return Numero(0)
-			if auxOV==auxSV:#Si el divisor es igual que el dividendo(CB)
+			if other==self:#Si el divisor es igual que el dividendo(CB)
 				return Numero(1)
-			if auxOV==1:
-				return Numero(auxSV)
+			if other==Numero(1):
+				return self
 					
 			while dividendo!=[]:
 				auxND=0
 				nuevoDividendo.append(dividendo[0])
 				auxND = self.convertInt(nuevoDividendo)
-				#print (other.valor[-other.can:])
 				
 				if residuo==0:
 						pass
@@ -182,39 +180,46 @@ class Numero(NumSpecs):
 					auxND = self.convertInt(nuevoDividendo)
 					residuo = 0
 				
-				if auxND > auxOV:
-					#print("aaa", nuevoDividendo > other.valor[-other.can:])
-					#print(nuevoDividendo, other.valor[-other.can:])
-					#reciduo = auxND % auxOV
-					#auxND = self.convertInt(nuevoDividendo)
-					
-					#print("ND", auxND)
-					#print("OV", auxOV)
+				if Numero(auxND) > other:
 					contador=0
 					contadorDividiendo=auxND
-					while(contadorDividiendo>=auxOV):
-						contadorDividiendo-=auxOV
+					
+					while(Numero(contadorDividiendo)>=other):
+					
+						print(Numero(contadorDividiendo)>=other)
+						print (contadorDividiendo)
+						numerito=Numero(contadorDividiendo)-other
+						print (numerito.valor)
+						print (other.valor)
+						contadorDividiendo=self.convertInt(numerito.valor)
+						print (contadorDividiendo)
+						print (other.valor)
 						contador+=1
-					if (contadorDividiendo!=0):
+						print(other)
+						print(Numero(contadorDividiendo)>=other)
+					
+					if (Numero(contadorDividiendo)!=Numero(0)):
 						residuo=contadorDividiendo
 					resultado.append(contador)
-					#print("Res", resultado)
 					nuevoDividendo = []
 					
-				if auxND < auxOV:
+				if Numero(auxND) < other:
 					if (len(resultado)==0 or len(dividendo)==1):
 						pass
 					if auxND == 0:
 						resultado.append(0)
 					else:
 						resultado.append(0)
-				if auxND == auxOV:
+				if Numero(auxND) == other:
 					resultado.append(1)
 					nuevoDividendo=[]
 				
 				dividendo = dividendo[1:]
-			#print(resultado)			
-			return Numero(self.convertInt(resultado))
+			
+			
+			aux = Numero()
+			aux.setVector(resultado)
+			return aux
 		except Exception as error:		# Se controla la excepcion.
 			return self.prt(error)
 											
