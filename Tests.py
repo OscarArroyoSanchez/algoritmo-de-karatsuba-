@@ -9,37 +9,95 @@
 from Numero import *
 from Knumero import *
 import timeit
+import random
 
-
-
-if __name__ == "__main__":
-	num = Numero(num=12, tam=16, base=10)
-	#num.toString()
-	num2 = Numero(num=14, tam=16, base=10)
+def testNumero():
+	print("------------------ Probando suma: ------------------------")
+	for i in range (6):
+		numero = random.randint(1, (10**i)+1)
+		a = Numero(numero)
+		numero2 = random.randint(1, (10**i)+1)
+		b = Numero(numero2)
+		print("Sumando: ", a, "+", b)
+		print("R/", a+b, " - " "Resultado PYTHON: ", numero+numero2, "\n")
 	
-	num3 = Knumero (99)
-	num4 = Knumero(1998)
+	print("\n")
+	print("------------------ Probando resta: ------------------------")
+	for i in range (6):
+		numero = random.randint(1, (10**i)+1)
+		a = Numero(numero)
+		numero2 = random.randint(1, (10**i)+1)
+		b = Numero(numero2)
+		print("Restando: ", a, "-", b)
+		print("R/", a-b, " - " "Resultado PYTHON: ", numero-numero2, "\n")
+	
+	print("\n")
+	print("------------------ Probando Multiplicacion de escuela: ------------------------")
+	for i in range (2, 10, 2):
+		numero = random.randint(1, (10**i)+1)
+		a = Numero(numero)
+		numero2 = random.randint(1, (10**i)+1)
+		b = Numero(numero2)
+		print("Multiplicando: ", a, "*", b)
+		print("R/", a*b, " - " "Resultado PYTHON: ", numero*numero2, "\n")
+		
+	print("\n")
+	print("------------------ Probando Division: ------------------------")
+	for i in range (6):
+		numero = random.randint(1, (10**i)+1)
+		a = Numero(numero)
+		numero2 = random.randint(1, (10**i)+1)
+		b = Numero(numero2)
+		print("Dividiendo: ", a, "/", b)
+		print("R/", a/b, " - " "Resultado PYTHON: ", numero//numero2, "\n")
+		
+	print("\n")
+	print("------------------ Probando Multiplicacion por Karatsuba: ------------------------")
+	for i in range (2, 10, 2):
+		numero = random.randint(1, (10**i)+1)
+		a = Knumero(numero)
+		numero2 = random.randint(1, (10**i)+1)
+		b = Knumero(numero2)
+		print("Multiplicando: ", a, "*", b)
+		print("R/", a*b, " - " "Resultado PYTHON: ", numero*numero2, "\n")
+		
+if __name__ == "__main__":
+	num = Numero(num=500, tam=16, base=10)
+	#num.toString()
+	num2 = Numero(num=25, tam=16, base=10)
+	
+	num3 = Knumero (294)
+	num4 = Knumero(627)
 	#print(num - num2, "Test1", "\n")
 	#print(num3.valor, "knum")
 	#print(num + num2, "Test2")
 	#print(num3 * num4, "Test")
 	#print(num3 * num4, "Resultado")
 	#print(num3, num4)
-	print(num3 * num4)
+	#print(num3 * num4)
 	#print("Resultado: ", num > num2)
-	#print (num * num2)
-	"""
-	with open("TestK.csv", "w") as file:
-		file.write(f"AlgoritmoEscuela: ;AlgoritmoKaratsuba: \n")
-		for i in range (1, 9999999999, 99999998):
-			
-			TimeSchool = timeit.timeit("Numero(i)*Numero(i)", globals=globals(), number = 1000)
-			TimeKaratsuba = timeit.timeit("Knumero(i)*Knumero(i)", globals=globals(), number = 1000)
-			file.write(f"{TimeSchool};{TimeKaratsuba} \n")
+	#print (num.valor)
+	#print (num2.valor)
+	#print (num / num2)
+	#print (num>num2)
+	testNumero()
 	
+	with open("TestK.csv", "w") as file:
+		file.write(f"N: ;AlgoritmoEscuela: ;AlgoritmoKaratsuba: \n")
+		for i in range (5, 25):
+			numero = random.randint(1, (10**i)+1)
+			a = Knumero(numero)
+			numero2 = random.randint(1, (10**i)+1)
+			b = Knumero(numero2)
+			
+			TimeSchool = timeit.timeit("a*b", globals=globals(), number = 100)*1000
+			TimeKaratsuba = timeit.timeit("a*b", globals=globals(), number = 100)*1000
+			file.write(f"{a},{b};{TimeSchool};{TimeKaratsuba} \n")
+		
+	"""
 	with open ("Test.csv", "w") as file:
 		with open ("Prueba.csv", "r") as cases:
-			doc = cases.readlines()
+			doc = cases.readlines() 
 			file.write(f"Numero 1;x;Numero 2;Tiempo Karatsuba;Tiempo Multiplicacion;Resultado Karatsuba;Resultado Multiplicacion\n")
 			for line in doc:
 				case = line.split(";")

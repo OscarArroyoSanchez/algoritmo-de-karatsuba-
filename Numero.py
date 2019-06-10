@@ -21,28 +21,39 @@ class Numero(NumSpecs):
 		print(f"{self.valor}, {self.size}, {self.base}")
 	
 	def __lt__(self, other):
-		for i in range(self.size):
-			if (self.valor[i] < other.valor[i]):
-				return True
-		return False
+		return self.valor < other.valor
 		
 	def __gt__(self, other):
+		return self.valor > other.valor
+	
+	"""
+	def __ge__(self, other):
+		if(self.valor==other.valor):
+			return True
 		for i in range(self.size):
 			if (self.valor[i] > other.valor[i]):
 				return True
 		return False
 	
-	def __ge__(self, other):
-		pass
-	
+	def __le__(self, other):
+		if(self.valor==other.valor):
+			return True
+		for i in range(self.size):
+			if (self.valor[i] < other.valor[i]):
+				return True
+		return False
+	"""
+
 	def __eq__(self, other):
-		if(self.size == other.size and self.base == other.base):
+		return self.valor==other.valor
+	"""	if(self.size == other.size and self.base == other.base):
 			for i in range(self.size):
 				if(self.valor[i] != other.valor[i]):
 					return False
 			return True
 		else:
-			return False
+			return False"""
+		
 	
 	def __repr__(self):
 		aux = 0
@@ -179,7 +190,7 @@ class Numero(NumSpecs):
 		
 			if other == Numero(0):
 				raise Exception ("Error: no se puede dividir entre cero")
-			if other>self or self==Numero(0):#Si el divisor es mayor que el dividendo(CB)
+			if other >self or self==Numero(0):#Si el divisor es mayor que el dividendo(CB)
 				return Numero(0)
 			if other==self:#Si el divisor es igual que el dividendo(CB)
 				return Numero(1)
